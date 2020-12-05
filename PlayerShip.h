@@ -1,7 +1,7 @@
-#include "Entity.h"
+#include "GameEntity.h"
 #include <math.h>
 
-class PlayerShip : public Entity {
+class PlayerShip : public GameEntity {
 private:
     float angle;
     double angleOffset;
@@ -21,5 +21,5 @@ public:
 
     float toRads(float degrees) const;
 
-    bool checkCollision(float nX, float nY);
+    bool contains(float nX, float nY);
 };

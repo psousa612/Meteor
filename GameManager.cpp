@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 GameManager::GameManager() {
-
+    
 }
 
 void GameManager::draw() const {

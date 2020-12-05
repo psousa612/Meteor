@@ -1,1 +1,1 @@
-GameManager.o: GameManager.cpp GameManager.h PlayerShip.h Entity.h
+GameManager.o: GameManager.cpp GameManager.h PlayerShip.h Entity.h SOIL.h
