@@ -1,3 +1,5 @@
+#pragma once
+
 #if defined WIN32
 #include <freeglut.h>
 #include "../windows/SOIL.h"

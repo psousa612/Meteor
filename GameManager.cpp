@@ -1,7 +1,9 @@
 #include "GameManager.h"
 
 GameManager::GameManager() {
-    
+    for(int i = 0; i < 3; i++) {
+        guiObjects.push_back(new Hearts(-0.9, -.9+(i*.11)));
+    }
 }
 
 void GameManager::draw() const {
@@ -15,6 +17,15 @@ void GameManager::draw() const {
     glEnd();
 
     ps.draw();
+
+    for(auto i = gameObjects.begin(); i != gameObjects.end(); i++) {
+        (*i)->draw(0);
+    }
+
+    for(auto i = guiObjects.begin(); i != guiObjects.end(); i++) {
+        (*i)->draw(-1);
+    }
+
 }
 
 void GameManager::moveUpdate(unsigned char key) {
@@ -38,9 +49,35 @@ void GameManager::moveUpdate(unsigned char key) {
         case 'D':
             ps.turnRight();
             break;
+
+        case ' ':
+            fireProjectile();
+            break;
     }
 }
 
 void GameManager::update() {
     //Loop over objects that need to be updated here
+    for(auto i = gameObjects.begin(); i != gameObjects.end();) {
+        (*i)->move();
+        if((*i)->toDelete()) {
+            i = gameObjects.erase(i);
+        } else {
+            ++i;
+        }
+    }
+}
+
+void GameManager::fireProjectile() {
+    gameObjects.push_back(new Projectile(ps.getX(), ps.getY(), ps.getAngle()));
+}
+
+bool GameManager::decreaseHealth() {
+    for(auto i = guiObjects.end()-1; i != guiObjects.begin(); i++) {
+        if(!(*i)->getHidden()) {
+            (*i)->setHidden(false);
+
+            if()
+        }
+    }
 }

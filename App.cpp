@@ -37,6 +37,7 @@ void App::keyDown(unsigned char key, float x, float y){
 
 void App::idle() {
     // draw();
+    gm.update();
 }
 
 App::~App(){   

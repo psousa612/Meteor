@@ -3,9 +3,6 @@
 
 #include <vector>
 #include "GlutApp.h"
-#include "Rect.h"
-#include "Circle.h"
-#include "TexRect.h"
 #include "GameManager.h"
 
 class App: public GlutApp {

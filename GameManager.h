@@ -7,11 +7,16 @@
 #endif
 
 #include <iostream>
+#include <vector>
 #include "PlayerShip.h"
+#include "Projectile.h"
+#include "Hearts.h"
 
 class GameManager {
 private:
     PlayerShip ps;
+    std::vector<GameEntity*> gameObjects;
+    std::vector<GUIEntity*> guiObjects;
 
 public:
     GameManager();
@@ -19,4 +24,7 @@ public:
     void draw() const;
     void moveUpdate(unsigned char key);
     void update();
+
+    void fireProjectile();
+    bool decreaseHealth();
 };
