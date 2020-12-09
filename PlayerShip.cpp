@@ -4,8 +4,8 @@
 PlayerShip::PlayerShip() : GameEntity("images/ship.png", -1, 1, 3, 3) {
     x = 0;
     y = 0;
-    w = .2;
-    h = .2;
+    w = .1;
+    h = .1;
     moveRes = .1;
     angle = 90;
     angleOffset = 135;
@@ -60,11 +60,20 @@ void PlayerShip::moveBackwards() {
 
 void PlayerShip::turnLeft() {
     angle += angleMoveRes;
+    if(angle < 0) {
+        angle += 360;
+    } 
+
 }
 
 void PlayerShip::turnRight() {
     // std::cout << "turning right!" << std::endl;
     angle -= angleMoveRes;
+
+    if(angle > 360) {
+        angle -= 360;
+    }
+    
 }
 
 void PlayerShip::move() {

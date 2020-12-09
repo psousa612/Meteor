@@ -9,10 +9,10 @@ Projectile::Projectile() : GameEntity("images/projectile.png", -1, 1, 1, 1) {
 Projectile::Projectile(float x, float y, float angle) : GameEntity("images/projectile.png", -1, 1, 1, 3) {
     this->x = x;
     this->y = y;
-    w = .1;
-    h = .1;
+    w = .05;
+    h = .05;
     this->angle = angle;
-    this->angleOffset = 225;
+    this->angleOffset = 45;
     moveRes = 0.05;
 
 }
@@ -34,27 +34,28 @@ void Projectile::draw(float z) const {
     for(int i = 0; i < 4; i++) {
         // std::cout << (i*90.0 + angle + angleOffset) << std::endl;
         switch(i) {
-            case 0:
+            case 2:
                 glTexCoord2f(0, 0);
                 break;
 
-            case 1:
+            case 3:
                 glTexCoord2f(1, 0);
                 break;
 
-            case 2:
+            case 0:
                 glTexCoord2f(1, 1);
                 break;
 
-            case 3:
+            case 1:
                 glTexCoord2f(0, 1);
                 break;
         }
         
         
         float currAngle = toRads((i*90.0 + angle + angleOffset));
-        glVertex2f((w * cos(currAngle))+x, (h * sin(currAngle))+y);
+        glVertex2f(w * cos(currAngle)+x, h * sin(currAngle)+y);
     }
+    
     glEnd();
     glDisable(GL_TEXTURE_2D);
     // std::cout << "proj move" << std::endl;
@@ -63,8 +64,15 @@ void Projectile::draw(float z) const {
 void Projectile::move() {
     x += moveRes*cos(toRads(angle));
     y += moveRes*sin(toRads(angle));
+
+    // std::cout << w << ", " << h << std::endl;
+    // std::cout << (w * cos( angle)) << std::endl;
 }
 
 bool Projectile::contains(float x, float y) {
     return false;
+}
+
+int Projectile::getType() const {
+    return 1;
 }

@@ -3,6 +3,7 @@
 GameManager::GameManager() {
     for(int i = 0; i < 3; i++) {
         guiObjects.push_back(new Hearts(-0.9, -.9+(i*.11)));
+        guiObjects.push_back(new Ammo(0.85, -.9+(i*.11)));
     }
 }
 
@@ -60,7 +61,13 @@ void GameManager::update() {
     //Loop over objects that need to be updated here
     for(auto i = gameObjects.begin(); i != gameObjects.end();) {
         (*i)->move();
+        
         if((*i)->toDelete()) {
+            std::cout << "yey" << std::endl;
+            if((*i)->getType() == 1) {
+                
+                ammoCount++;
+            }
             i = gameObjects.erase(i);
         } else {
             ++i;
@@ -69,15 +76,26 @@ void GameManager::update() {
 }
 
 void GameManager::fireProjectile() {
+    if(ammoCount == 0) {
+        return;
+    }
+
     gameObjects.push_back(new Projectile(ps.getX(), ps.getY(), ps.getAngle()));
+    ammoCount--;
 }
 
 bool GameManager::decreaseHealth() {
-    for(auto i = guiObjects.end()-1; i != guiObjects.begin(); i++) {
-        if(!(*i)->getHidden()) {
-            (*i)->setHidden(false);
+    int hiddenCount = 0;
 
-            if()
+    for(auto i = guiObjects.end()-1; i != guiObjects.begin()-1; i--) {
+        if(!(*i)->getHidden()) {
+            (*i)->setHidden(true);
+
+            break;
+        } else {
+            hiddenCount++;
         }
     }
+
+    return hiddenCount == 3;
 }

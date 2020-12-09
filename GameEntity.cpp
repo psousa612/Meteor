@@ -118,3 +118,7 @@ bool GameEntity::toDelete() const{
 float GameEntity::toRads(float degrees) const {
     return degrees * (M_PI/180.0);
 }
+
+int GameEntity::getType() const {
+    return -1;
+}

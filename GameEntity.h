@@ -32,4 +32,6 @@ public:
     bool contains(float, float) const;
     bool toDelete() const;
     float toRads(float) const;
+
+    int getType() const;
 };

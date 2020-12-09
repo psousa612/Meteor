@@ -11,9 +11,11 @@
 #include "PlayerShip.h"
 #include "Projectile.h"
 #include "Hearts.h"
+#include "Ammo.h"
 
 class GameManager {
 private:
+    int ammoCount = 3;
     PlayerShip ps;
     std::vector<GameEntity*> gameObjects;
     std::vector<GUIEntity*> guiObjects;

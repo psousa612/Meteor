@@ -1,14 +1,14 @@
-#include "Hearts.h"
+#include "Ammo.h"
 
-Hearts::Hearts() : GUIEntity("images/heart.png", -1, 1, 1, 1) {
+Ammo::Ammo() : GUIEntity("images/projectile.png", -1, 1, 1, 1)  {
     this->x = 0;
     this->y = 0;
-    w = .1;
+    w = 0.1;
     h = w;
     hidden = false;
 }
 
-Hearts::Hearts(float x, float y) : GUIEntity("images/heart.png", -1, 1, 1, 1) {
+Ammo::Ammo(float x, float y) : GUIEntity("images/projectile.png", -1, 1, 1, 1) {
     this->x = x;
     this->y = y;
     w = 0.1;
@@ -16,7 +16,7 @@ Hearts::Hearts(float x, float y) : GUIEntity("images/heart.png", -1, 1, 1, 1) {
     hidden = false;
 }
 
-void Hearts::draw(float z) const {
+void Ammo::draw(float z ) const {
     if(hidden) {
         return;
     }
@@ -42,6 +42,6 @@ void Hearts::draw(float z) const {
     glDisable(GL_TEXTURE_2D);
 }
 
-bool Hearts::contains(float nX, float nY) {
+bool Ammo::contains(float, float) {
     return false;
 }
