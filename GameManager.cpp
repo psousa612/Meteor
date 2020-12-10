@@ -28,6 +28,10 @@ void GameManager::draw() const {
         (*i)->draw(-1);
     }
 
+    for(auto i = projs.begin(); i != projs.end(); i++) {
+        (*i)->draw(-1);
+    }
+
 }
 
 void GameManager::moveUpdate(unsigned char key) {
@@ -62,15 +66,39 @@ void GameManager::update() {
     //Loop over objects that need to be updated here
     for(auto i = gameObjects.begin(); i != gameObjects.end();) {
         (*i)->move();
+
         // std::cout << gameObjects.size() << std::endl;
         if((*i)->toDelete()) {
             // std::cout << (*i)->getType() << std::endl;
-            if((*i)->getType() == 1) {
-                increaseAmmo();
-            }
+
             i = gameObjects.erase(i);
         } else {
             ++i;
+        }
+    }
+
+    for(auto i = projs.begin(); i != projs.end();) {
+        (*i)->move();
+
+        if((*i)->toDelete()) {
+            increaseAmmo();
+            i = projs.erase(i);
+        } else {
+            i++;
+        }
+    }
+
+    checkForCollisions();
+
+    checkMeteorTime();
+}
+
+void GameManager::checkForCollisions() {
+    for(int i = 0; i < projs.size(); i++) {
+        for(int j = 0; j < gameObjects.size(); j++) {
+            if(gameObjects.at(j)->contains(projs.at(i)->getX(), projs.at(i)->getY(), projs.at(i)->getW(), projs.at(i)->getH())) {
+                
+            }
         }
     }
 }
@@ -80,7 +108,7 @@ void GameManager::fireProjectile() {
         return;
     }
 
-    gameObjects.push_back(new Projectile(ps.getX(), ps.getY(), ps.getAngle()));
+    projs.push_back(new Projectile(ps.getX(), ps.getY(), ps.getAngle()));
     decreaseAmmo();
 }
 
@@ -133,4 +161,62 @@ void GameManager::decreaseAmmo() {
         }
     }
 }
+
+void GameManager::startMeteorTime() {
+    currTime = std::clock();
+    timer = .04;
+}
+
+void GameManager::checkMeteorTime() {
+    
+    double duration = ( std::clock() - currTime ) / (double) CLOCKS_PER_SEC;
+    // std::cout << timer << ", " << duration << std::endl;
+    if(duration > timer) {
+        //Spawn Meteor
+        int direction = ((int)rand() % 4) + 1;
+        float nX = 0;
+        float nY = 0;
+        
+        
+        nY = (((float)(rand())/(float)RAND_MAX)*2)-1;
+        // std::cout <<"dir:" <<  direction << std::endl;
+        switch(direction) {
+            case 1: //Left
+                nX = genRandFloat(-1, -0.8);
+                nY = genRandFloat(-1, 1);
+                break;
+
+            case 2: //Up
+                nX = genRandFloat(-1, 1);
+                nY = genRandFloat(0.8, 1);
+                break;
+
+            case 3: //Right
+                nX = genRandFloat(0.8, 1);
+                nY = genRandFloat(-1, 1);
+                break;
+
+            case 4: //Down
+                nX = genRandFloat(-1, 1);
+                nY = genRandFloat(-0.8, -1);
+                break;
+        }
+
+        
+
+        // std::cout << nX << ", " << nY << std::endl;
+        gameObjects.push_back(new Meteor(nX, nY));
+        
+        //Reset the timer
+        startMeteorTime();
+    }
+}
+
+float GameManager::genRandFloat(float a, float b) {
+    float random = ((float) rand()) / (float) RAND_MAX;
+    float diff = b - a;
+    float r = random * diff;
+    return a + r;
+}
+
 
