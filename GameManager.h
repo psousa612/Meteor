@@ -20,6 +20,7 @@ class GameManager {
 private:
     int ammoCount = 3;
     int gameState = 0;
+    int score = 0;
     float timer;
     std::clock_t currTime;
 
@@ -47,4 +48,5 @@ public:
     void checkMeteorTime();
     
     float genRandFloat(float, float);
+    void reset();
 };

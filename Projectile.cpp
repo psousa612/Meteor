@@ -13,7 +13,7 @@ Projectile::Projectile(float x, float y, float angle) : GameEntity("images/proje
     h = .05;
     this->angle = angle;
     this->angleOffset = 45;
-    moveRes = 0.05;
+    moveRes = 0.015;
 
 }
 void Projectile::draw(float z) const {

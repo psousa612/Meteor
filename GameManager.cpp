@@ -17,8 +17,21 @@ void GameManager::draw() const {
     glVertex2f(-1,-1);
     glVertex2f(-1,1);
     glEnd();
-
+    void* font = GLUT_BITMAP_HELVETICA_18;
+    float offset, x, y;
     ps.draw();
+
+    glColor3f(1, 1, 1);
+    offset = 0.02;
+    x = -0.15;
+    y = 0.8;
+    std::string text = "Score: " + std::to_string(score);
+    for (int i = 0; i < text.length(); i++) {
+        glRasterPos3f(x+offset, y,1);
+        glutBitmapCharacter(font, text[i]);
+        int w = glutBitmapWidth(font, text[i]);
+        offset += ((float)w / 640)*2;
+    }
 
     for(auto i = gameObjects.begin(); i != gameObjects.end(); i++) {
         (*i)->draw(0);
@@ -33,12 +46,25 @@ void GameManager::draw() const {
     }
 
     if(gameState == 1) {
-        void* font = GLUT_BITMAP_HELVETICA_18;
+        
 
         glColor3f(1, 1, 1);
-        float offset = 0.02;
-        float x = -0.05, y = 0;
+        offset = 0.02;
+        x = -0.05;
+        y = 0;
         std::string text = "Game Over!";
+        for (int i = 0; i < text.length(); i++) {
+            glRasterPos3f(x+offset, y,1);
+            glutBitmapCharacter(font, text[i]);
+            int w = glutBitmapWidth(font, text[i]);
+            offset += ((float)w / 640)*2;
+        }
+
+        glColor3f(1, 1, 1);
+        offset = 0.02;
+        x = -0.05;
+        y = -0.2;
+        text = "Press Space To Continue!";
         for (int i = 0; i < text.length(); i++) {
             glRasterPos3f(x+offset, y,1);
             glutBitmapCharacter(font, text[i]);
@@ -52,7 +78,12 @@ void GameManager::draw() const {
 
 void GameManager::moveUpdate(unsigned char key) {
     if(gameState == 1) {
-        return;
+        if(key == ' ') {
+            reset();
+            return;
+        } else {
+            return;
+        }
     }
 
     switch(key) {
@@ -123,6 +154,7 @@ void GameManager::checkForCollisions() {
                 gameObjects.erase(gameObjects.begin() + j);
                 projs.erase(projs.begin() + i);
                 increaseAmmo();
+                score += 100;
                 // i--;
                 // j--;
                 return;
@@ -266,4 +298,19 @@ float GameManager::genRandFloat(float a, float b) {
     return a + r;
 }
 
+void GameManager::reset() {
+    ps.setX(0);
+    ps.setY(0);
+    std::cout << "huh" << std::endl;
+    gameObjects.clear();
+    guiObjects.clear();
+    
+    for(int i = 0; i < 3; i++) {
+        guiObjects.push_back(new Hearts(-0.9, -.9+(i*.11)));
+        guiObjects.push_back(new Ammo(0.85, -.9+(i*.11)));
+    }
+    ammoCount = 3;
+    score = 0;
+    gameState = 0;
+}
 
