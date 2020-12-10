@@ -45,3 +45,7 @@ void Hearts::draw(float z) const {
 bool Hearts::contains(float nX, float nY) {
     return false;
 }
+
+int Hearts::getType() const {
+    return 100;
+}

@@ -19,4 +19,5 @@ public:
     bool getHidden() const;
     bool setHidden(bool);
 
+    virtual int getType() const = 0;
 };

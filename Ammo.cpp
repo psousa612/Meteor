@@ -45,3 +45,7 @@ void Ammo::draw(float z ) const {
 bool Ammo::contains(float, float) {
     return false;
 }
+
+int Ammo::getType() const {
+    return 101;
+}

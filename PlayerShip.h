@@ -14,4 +14,5 @@ public:
     void turnRight();
 
     bool contains(float nX, float nY);
+    int getType() const;
 };

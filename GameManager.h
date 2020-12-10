@@ -29,4 +29,7 @@ public:
 
     void fireProjectile();
     bool decreaseHealth();
+
+    void increaseAmmo();
+    void decreaseAmmo();
 };

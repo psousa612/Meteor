@@ -86,3 +86,6 @@ bool PlayerShip::contains(float nX, float nY) {
     std::cout << "checking collision!" << std::endl;
 }
 
+int PlayerShip::getType() const {
+    return 0;
+}

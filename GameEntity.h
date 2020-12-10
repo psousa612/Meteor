@@ -33,5 +33,5 @@ public:
     bool toDelete() const;
     float toRads(float) const;
 
-    int getType() const;
+    virtual int getType() const = 0;
 };
