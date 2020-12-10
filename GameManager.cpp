@@ -32,16 +32,12 @@ void GameManager::draw() const {
         (*i)->draw(-1);
     }
 
-        if(gameState == 1) {
-        return;
-    }
-
     if(gameState == 1) {
         void* font = GLUT_BITMAP_HELVETICA_18;
 
-        glColor3f(1, 1, 0);
+        glColor3f(1, 1, 1);
         float offset = 0.02;
-        float x = 0, y = 0.7;
+        float x = -0.05, y = 0;
         std::string text = "Game Over!";
         for (int i = 0; i < text.length(); i++) {
             glRasterPos3f(x+offset, y,1);
@@ -49,6 +45,7 @@ void GameManager::draw() const {
             int w = glutBitmapWidth(font, text[i]);
             offset += ((float)w / 640)*2;
         }
+        
     }
 
 }

@@ -1,4 +1,5 @@
 #include "GameEntity.h"
+#include <string>
 
 class Meteor : public GameEntity {
 public:
