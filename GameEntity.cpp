@@ -108,6 +108,7 @@ float GameEntity::getAngle() const {
 }
 
 bool GameEntity::contains(float, float) const {
+    // std::cout << "hi" << std::endl;
     return false; //....
 }
 

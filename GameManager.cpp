@@ -32,9 +32,32 @@ void GameManager::draw() const {
         (*i)->draw(-1);
     }
 
+        if(gameState == 1) {
+        return;
+    }
+
+    if(gameState == 1) {
+        void* font = GLUT_BITMAP_HELVETICA_18;
+
+        glColor3f(1, 1, 0);
+        float offset = 0.02;
+        float x = 0, y = 0.7;
+        std::string text = "Game Over!";
+        for (int i = 0; i < text.length(); i++) {
+            glRasterPos3f(x+offset, y,1);
+            glutBitmapCharacter(font, text[i]);
+            int w = glutBitmapWidth(font, text[i]);
+            offset += ((float)w / 640)*2;
+        }
+    }
+
 }
 
 void GameManager::moveUpdate(unsigned char key) {
+    if(gameState == 1) {
+        return;
+    }
+
     switch(key) {
         case 'w':
         case 'W':
@@ -63,6 +86,9 @@ void GameManager::moveUpdate(unsigned char key) {
 }
 
 void GameManager::update() {
+    if(gameState == 1) {
+        return;
+    }
     //Loop over objects that need to be updated here
     for(auto i = gameObjects.begin(); i != gameObjects.end();) {
         (*i)->move();
@@ -97,8 +123,27 @@ void GameManager::checkForCollisions() {
     for(int i = 0; i < projs.size(); i++) {
         for(int j = 0; j < gameObjects.size(); j++) {
             if(gameObjects.at(j)->contains(projs.at(i)->getX(), projs.at(i)->getY(), projs.at(i)->getW(), projs.at(i)->getH())) {
-                
+                gameObjects.erase(gameObjects.begin() + j);
+                projs.erase(projs.begin() + i);
+                increaseAmmo();
+                // i--;
+                // j--;
+                return;
             }
+            // std::cout << gameObjects.at(j)->contains(ps.getX(), ps.getY(), ps.getW(), ps.getY()) << std::endl;
+            
+        }
+    }
+
+    for(int i = 0; i < gameObjects.size(); i++) {
+        if(gameObjects.at(i)->contains(ps.getX(), ps.getY(), ps.getW(), ps.getY())) {
+            
+            if(decreaseHealth()) {
+                gameState = 1;
+            }
+            //delete meteor 
+            gameObjects.erase(gameObjects.begin() + i);
+            return;
         }
     }
 }
@@ -113,22 +158,23 @@ void GameManager::fireProjectile() {
 }
 
 bool GameManager::decreaseHealth() {
+    // std::cout << "bye bye mario" << std::endl;
     int hiddenCount = 0;
 
     for(auto i = guiObjects.end()-1; i != guiObjects.begin()-1; i--) {
         if((*i)->getType() != 100) {
-            return false;
+            continue;
         }
 
         if(!(*i)->getHidden()) {
             (*i)->setHidden(true);
-
+            hiddenCount++;
             break;
         } else {
             hiddenCount++;
         }
     }
-
+    // std::cout << hiddenCount << std::endl;
     return hiddenCount == 3;
 }
 
@@ -164,7 +210,7 @@ void GameManager::decreaseAmmo() {
 
 void GameManager::startMeteorTime() {
     currTime = std::clock();
-    timer = .04;
+    timer = .03;
 }
 
 void GameManager::checkMeteorTime() {
@@ -176,36 +222,40 @@ void GameManager::checkMeteorTime() {
         int direction = ((int)rand() % 4) + 1;
         float nX = 0;
         float nY = 0;
+        float a = 0;
         
         
-        nY = (((float)(rand())/(float)RAND_MAX)*2)-1;
+        // nY = (((float)(rand())/(float)RAND_MAX)*2)-1;
         // std::cout <<"dir:" <<  direction << std::endl;
         switch(direction) {
             case 1: //Left
                 nX = genRandFloat(-1, -0.8);
                 nY = genRandFloat(-1, 1);
+                a = genRandFloat(-25, 25);
                 break;
 
             case 2: //Up
                 nX = genRandFloat(-1, 1);
                 nY = genRandFloat(0.8, 1);
+                a = genRandFloat(225, 270);
                 break;
 
             case 3: //Right
                 nX = genRandFloat(0.8, 1);
                 nY = genRandFloat(-1, 1);
+                a = genRandFloat(155, 205);
                 break;
 
             case 4: //Down
                 nX = genRandFloat(-1, 1);
                 nY = genRandFloat(-0.8, -1);
+                a = genRandFloat(65, 115);
                 break;
         }
 
         
-
         // std::cout << nX << ", " << nY << std::endl;
-        gameObjects.push_back(new Meteor(nX, nY));
+        gameObjects.push_back(new Meteor(nX, nY, a));
         
         //Reset the timer
         startMeteorTime();

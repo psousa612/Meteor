@@ -19,6 +19,7 @@
 class GameManager {
 private:
     int ammoCount = 3;
+    int gameState = 0;
     float timer;
     std::clock_t currTime;
 

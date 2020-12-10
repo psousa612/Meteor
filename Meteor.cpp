@@ -5,14 +5,14 @@ Meteor::Meteor() : GameEntity("images/meteor1.png", -1, 1, 1, 1) {
 
 }
 
-Meteor::Meteor(float x, float y) : GameEntity("images/meteor1.png", -1, 1, 1, 1){
+Meteor::Meteor(float x, float y, float a) : GameEntity("images/meteor1.png", -1, 1, 1, 1){
     this->x = x;
     this->y = y;
     w = 0.15;
     h = 0.15;
-
-    angle = tan(y/x);
-    // std::cout << angle << std::endl;
+    angle = a;
+    // angle = tan(y/x);
+    // std::cout << angle<< std::endl;
     moveRes = 0.01;
 }
 
@@ -39,14 +39,15 @@ void Meteor::draw(float z) const {
 }
 
 void Meteor::move() {
-    x += moveRes*cos(angle);
-    y += moveRes*sin(angle);
+    x += moveRes*cos(toRads(angle));
+    y += moveRes*sin(toRads(angle));
 }
 bool Meteor::contains(float a, float b) {
     return a > x && a < x+w && b > y && b < y+h;
 }
 
 bool Meteor::contains(float nX, float nY, float nW, float nH) {
+    // std::cout << "hi" << std::endl;
     return x < nX + nW && x + w > nX && y < nY + nH && y + h > nY;
 }
 

@@ -3,7 +3,7 @@
 class Meteor : public GameEntity {
 public:
     Meteor();
-    Meteor(float, float);
+    Meteor(float, float, float);
 
     void draw(float z = 0) const;
     void move();
