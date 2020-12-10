@@ -50,7 +50,7 @@ void GameManager::draw() const {
 
         glColor3f(1, 1, 1);
         offset = 0.02;
-        x = -0.05;
+        x = -0.1;
         y = 0;
         std::string text = "Game Over!";
         for (int i = 0; i < text.length(); i++) {
@@ -62,7 +62,7 @@ void GameManager::draw() const {
 
         glColor3f(1, 1, 1);
         offset = 0.02;
-        x = -0.05;
+        x = -0.1;
         y = -0.2;
         text = "Press Space To Continue!";
         for (int i = 0; i < text.length(); i++) {
@@ -165,7 +165,7 @@ void GameManager::checkForCollisions() {
     }
 
     for(int i = 0; i < gameObjects.size(); i++) {
-        if(gameObjects.at(i)->contains(ps.getX(), ps.getY(), ps.getW(), ps.getY())) {
+        if(gameObjects.at(i)->contains(ps.getX(), ps.getY(), ps.getW(), ps.getH())) {
             
             if(decreaseHealth()) {
                 gameState = 1;
@@ -301,7 +301,7 @@ float GameManager::genRandFloat(float a, float b) {
 void GameManager::reset() {
     ps.setX(0);
     ps.setY(0);
-    std::cout << "huh" << std::endl;
+    // std::cout << "huh" << std::endl;
     gameObjects.clear();
     guiObjects.clear();
     
@@ -309,6 +309,7 @@ void GameManager::reset() {
         guiObjects.push_back(new Hearts(-0.9, -.9+(i*.11)));
         guiObjects.push_back(new Ammo(0.85, -.9+(i*.11)));
     }
+
     ammoCount = 3;
     score = 0;
     gameState = 0;

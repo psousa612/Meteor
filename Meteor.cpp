@@ -13,7 +13,7 @@ Meteor::Meteor(float x, float y, float a) : GameEntity("images/meteor1.png", -1,
     angle = a;
     // angle = tan(y/x);
     // std::cout << angle<< std::endl;
-    moveRes = 0.01;
+    moveRes = 0.006;
 }
 
 void Meteor::draw(float z) const {
@@ -33,9 +33,25 @@ void Meteor::draw(float z) const {
 
     glTexCoord2f(0, 0);
     glVertex3f(x, y+h, z);
-
     glEnd();
     glDisable(GL_TEXTURE_2D);
+
+//-s--asdasa
+    // glColor3f(0, 1, 0);
+    // glBegin(GL_QUADS);
+    
+    // glVertex3f(x, y, 1);
+
+    
+    // glVertex3f(x+w, y, 1);
+
+    
+    // glVertex3f(x+w, y+h, 1);
+
+    
+    // glVertex3f(x, y+h, 1);
+    // glEnd();
+
 }
 
 void Meteor::move() {
